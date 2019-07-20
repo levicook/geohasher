@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"fmt"
 	"log"
 	"os"
 	"strconv"
@@ -52,11 +53,11 @@ func main() {
 		observed.Int = geohash.EncodeInt(lat, lng)
 
 		if observed.Hash != expected.Hash {
-			log.Printf("Hash mismatch; expected: %q, observed: %q for {%v,%v}", expected.Hash, observed.Hash, lat, lng)
+			fmt.Printf("Hash mismatch; expected: %q, observed: %q for {%v,%v}\n", expected.Hash, observed.Hash, lat, lng)
 		}
 
 		if observed.Int != expected.Int {
-			log.Printf("Int mismatch; expected: %q, observed: %q for {%v,%v}", expected.Int, observed.Int, lat, lng)
+			fmt.Printf("Int mismatch; expected: %q, observed: %q for {%v,%v}\n", expected.Int, observed.Int, lat, lng)
 		}
 	}
 
