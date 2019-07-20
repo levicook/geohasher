@@ -27,7 +27,7 @@ func main() {
 		lat := round(uniform(-90, 90))
 		lng := round(uniform(-180, 180))
 		fmt.Printf(
-			"0x%016x, %v, %v, %v\n",
+			"%016x, %v, %v, %v\n",
 			geohash.EncodeInt(lat, lng),
 			geohash.Encode(lat, lng),
 			lat,

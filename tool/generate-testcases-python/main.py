@@ -18,7 +18,7 @@ for i in range(args.trials):
     lat = round(uniform(-90, 90), args.precision)
     lng = round(uniform(-180, 180), args.precision)
 
-    print('0x%016x, %s, %s, %s' % (
+    print('%016x, %s, %s, %s' % (
         geohash.encode_uint64(lat, lng),
         geohash.encode(lat, lng),
         lat,
