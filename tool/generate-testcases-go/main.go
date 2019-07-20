@@ -24,7 +24,8 @@ func init() {
 
 func main() {
 	for i := 1; i < trials; i++ {
-		lat, lng := randLat(), randLng()
+		lat := round(uniform(-90, 90))
+		lng := round(uniform(-180, 180))
 		fmt.Printf(
 			"0x%016x, %v, %v, %v\n",
 			geohash.EncodeInt(lat, lng),
@@ -35,14 +36,8 @@ func main() {
 	}
 }
 
-func randLat() float64 {
-	const min, max = -90, 90
-	return round(min + rand.Float64()*(max-min))
-}
-
-func randLng() float64 {
-	const min, max = -180, 180
-	return round(min + rand.Float64()*(max-min))
+func uniform(max, min float64) float64 {
+	return min + rand.Float64()*(max-min)
 }
 
 func round(v float64) float64 {

@@ -1,0 +1,12 @@
+
+name: geohash
+description: geohash is a library for computing geohashes
+version: 0.0.1
+author: Levi Cook <levicook@gmail.com>
+homepage: https://github.com/levicook/geohash
+
+dev_dependencies:
+  test: ^1.6.4
+
+environment:
+  sdk: '>=2.0.0 <3.0.0'
