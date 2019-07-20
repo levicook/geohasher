@@ -29,7 +29,7 @@ func main() {
 		var rawInput = strings.Split(stdin.Text(), ", ")
 		var err error
 		var lat float64
-		var lng float64
+		var lon float64
 
 		var expected struct {
 			Int  uint64
@@ -47,28 +47,28 @@ func main() {
 			continue
 		}
 
-		lng, err = strconv.ParseFloat(rawInput[3], 64)
+		lon, err = strconv.ParseFloat(rawInput[3], 64)
 		if err != nil {
 			log.Println(err)
 			continue
 		}
 
 		if checkInt {
-			observed.Int = geohash.EncodeInt(lat, lng)
+			observed.Int = geohash.EncodeInt(lat, lon)
 			expected.Int, err = strconv.ParseUint(rawInput[0], 16, 64)
 			if err != nil {
 				log.Println(err)
 			}
 			if observed.Int != expected.Int {
-				fmt.Printf("Int mismatch; expected: %q, observed: %q for {%v,%v}\n", expected.Int, observed.Int, lat, lng)
+				fmt.Printf("Int mismatch; expected: %q, observed: %q for {%v,%v}\n", expected.Int, observed.Int, lat, lon)
 			}
 		}
 
 		if checkHash {
-			observed.Hash = geohash.Encode(lat, lng)
+			observed.Hash = geohash.Encode(lat, lon)
 			expected.Hash = rawInput[1]
 			if observed.Hash != expected.Hash {
-				fmt.Printf("Hash mismatch; expected: %q, observed: %q for {%v,%v}\n", expected.Hash, observed.Hash, lat, lng)
+				fmt.Printf("Hash mismatch; expected: %q, observed: %q for {%v,%v}\n", expected.Hash, observed.Hash, lat, lon)
 			}
 		}
 	}

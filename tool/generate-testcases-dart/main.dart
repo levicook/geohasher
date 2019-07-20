@@ -25,8 +25,8 @@ main(List<String> arguments) {
   for (var i = 0; i < trials; i++) {
     final lat = round(uniform(-90, 90), precision);
     final lng = round(uniform(-180, 180), precision);
-    final hash = geohash.Encode(lat, lng);
-    print('todo, $hash, $lat, $lng');
+    final hash = geohash.encode(lat, lng);
+    print(', $hash, $lat, $lng');
   }
 }
 
