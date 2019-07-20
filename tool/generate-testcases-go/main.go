@@ -23,7 +23,7 @@ func init() {
 }
 
 func main() {
-	for i := 1; i < trials; i++ {
+	for i := 0; i < trials; i++ {
 		lat := round(uniform(-90, 90))
 		lng := round(uniform(-180, 180))
 		fmt.Printf(
@@ -36,7 +36,7 @@ func main() {
 	}
 }
 
-func uniform(max, min float64) float64 {
+func uniform(min, max float64) float64 {
 	return min + rand.Float64()*(max-min)
 }
 

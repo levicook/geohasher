@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"flag"
 	"fmt"
 	"log"
 	"os"
@@ -10,6 +11,17 @@ import (
 
 	"github.com/mmcloughlin/geohash"
 )
+
+var (
+	checkHash bool
+	checkInt  bool
+)
+
+func init() {
+	flag.BoolVar(&checkHash, "checkHash", true, "validate string hash")
+	flag.BoolVar(&checkInt, "checkInt", true, "validate integer hash")
+	flag.Parse()
+}
 
 func main() {
 	stdin := bufio.NewScanner(os.Stdin)
@@ -29,14 +41,6 @@ func main() {
 			Hash string
 		}
 
-		expected.Int, err = strconv.ParseUint(rawInput[0], 16, 64)
-		if err != nil {
-			log.Println(err)
-			continue
-		}
-
-		expected.Hash = rawInput[1]
-
 		lat, err = strconv.ParseFloat(rawInput[2], 64)
 		if err != nil {
 			log.Println(err)
@@ -49,15 +53,23 @@ func main() {
 			continue
 		}
 
-		observed.Hash = geohash.Encode(lat, lng)
-		observed.Int = geohash.EncodeInt(lat, lng)
-
-		if observed.Hash != expected.Hash {
-			fmt.Printf("Hash mismatch; expected: %q, observed: %q for {%v,%v}\n", expected.Hash, observed.Hash, lat, lng)
+		if checkInt {
+			observed.Int = geohash.EncodeInt(lat, lng)
+			expected.Int, err = strconv.ParseUint(rawInput[0], 16, 64)
+			if err != nil {
+				log.Println(err)
+			}
+			if observed.Int != expected.Int {
+				fmt.Printf("Int mismatch; expected: %q, observed: %q for {%v,%v}\n", expected.Int, observed.Int, lat, lng)
+			}
 		}
 
-		if observed.Int != expected.Int {
-			fmt.Printf("Int mismatch; expected: %q, observed: %q for {%v,%v}\n", expected.Int, observed.Int, lat, lng)
+		if checkHash {
+			observed.Hash = geohash.Encode(lat, lng)
+			expected.Hash = rawInput[1]
+			if observed.Hash != expected.Hash {
+				fmt.Printf("Hash mismatch; expected: %q, observed: %q for {%v,%v}\n", expected.Hash, observed.Hash, lat, lng)
+			}
 		}
 	}
 
