@@ -15,7 +15,7 @@ main(List<String> arguments) {
     ..addOption(
       'precision',
       defaultsTo: '9',
-      help: 'lag/lng precision (number of floating point digits)',
+      help: 'lag/lon precision (number of floating point digits)',
     );
 
   final args = parser.parse(arguments);
@@ -24,9 +24,9 @@ main(List<String> arguments) {
 
   for (var i = 0; i < trials; i++) {
     final lat = round(uniform(-90, 90), precision);
-    final lng = round(uniform(-180, 180), precision);
-    final hash = geohash.encode(lat, lng);
-    print(', $hash, $lat, $lng');
+    final lon = round(uniform(-180, 180), precision);
+    final hash = geohash.encode(lat, lon);
+    print('$lat, $lon, $hash');
   }
 }
 

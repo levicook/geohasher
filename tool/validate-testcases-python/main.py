@@ -3,32 +3,15 @@ import geohash
 
 for line in sys.stdin:
     rawInput = line.rstrip().split(', ')
+    lat = float(rawInput[0])
+    lon = float(rawInput[1])
+    expected = rawInput[2]
+    observed = geohash.encode(lat, lon)
 
-    expected = {
-        'Int': int(rawInput[0], 16),
-        'Hash': rawInput[1],
-    }
-
-    lat = float(rawInput[2])
-    lng = float(rawInput[3])
-
-    observed = {
-        'Int': geohash.encode_uint64(lat, lng),
-        'Hash': geohash.encode(lat, lng),
-    }
-
-    if observed['Hash'] != expected['Hash']:
-        print('Hash mismatch; expected: %s, observed: %s for {%s,%s}' % (
-            expected['Hash'],
-            observed['Hash'],
+    if observed != expected:
+        print('mismatch; expected: %s, observed: %s for {%s,%s}' % (
+            expected,
+            observed,
             lat,
-            lng,
-        ))
-
-    if observed['Int'] != expected['Int']:
-        print('Int mismatch; expected: %s, observed: %s for {%s,%s}' % (
-            expected['Int'],
-            observed['Int'],
-            lat,
-            lng,
+            lon,
         ))

@@ -18,21 +18,16 @@ var (
 func init() {
 	rand.Seed(time.Now().UnixNano())
 	flag.IntVar(&trials, "trials", 4096, "number of test cases to generate")
-	flag.IntVar(&precision, "precision", 9, "lag/lng precision (number of floating point digits)")
+	flag.IntVar(&precision, "precision", 9, "lag/lon precision (number of floating point digits)")
 	flag.Parse()
 }
 
 func main() {
 	for i := 0; i < trials; i++ {
 		lat := round(uniform(-90, 90))
-		lng := round(uniform(-180, 180))
-		fmt.Printf(
-			"%016x, %v, %v, %v\n",
-			geohash.EncodeInt(lat, lng),
-			geohash.Encode(lat, lng),
-			lat,
-			lng,
-		)
+		lon := round(uniform(-180, 180))
+		hash := geohash.Encode(lat, lon)
+		fmt.Printf("%v, %v, %v\n", lat, lon, hash)
 	}
 }
 
