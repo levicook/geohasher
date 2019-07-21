@@ -8,8 +8,8 @@ String encode(final double lat, final double lon, {final int precision = 12}) {
   return LatLon(lat, lon).toGeoHash(precision: precision);
 }
 
-LatLon decode(final String hash) {
-  return LatLon.fromGeoHash(hash);
+LatLon decode(final String hash, {final int precision = 12}) {
+  return LatLon.fromGeoHash(hash, precision: precision);
 }
 
 String neighbor(final String hash, final Direction direction) {
@@ -59,8 +59,15 @@ class LatLon {
       : assert(latitude != null && latitude >= -90 && latitude <= 90),
         assert(longitude != null && latitude >= -180 && latitude <= 180);
 
-  factory LatLon.fromGeoHash(final String hash) {
-    return _bounds(hash).center;
+  factory LatLon.fromGeoHash(final String hash, {final int precision = 12}) {
+    return _bounds(hash).center.round(precision);
+  }
+
+  LatLon round(int precision) {
+    return LatLon(
+      _round(latitude, precision),
+      _round(longitude, precision),
+    );
   }
 
   String toGeoHash({final int precision = 12}) {
@@ -123,9 +130,16 @@ class LatLon {
   int get hashCode {
     return latitude.hashCode ^ longitude.hashCode;
   }
+
+  @override
+  String toString() {
+    return '$latitude, $longitude';
+  }
 }
 
 _Bounds _bounds(String geohash) {
+  geohash = geohash.toLowerCase();
+
   bool evenBit = true;
   double latMin = -90;
   double latMax = 90;
@@ -135,7 +149,7 @@ _Bounds _bounds(String geohash) {
   for (var i = 0; i < geohash.length; i++) {
     final chr = geohash[i];
     final idx = _base32.indexOf(chr);
-    if (idx == -1) throw FormatException('Invalid geohash');
+    if (idx == -1) throw FormatException('Invalid geohash $geohash');
 
     for (var n = 4; n >= 0; n--) {
       final bitN = idx >> n & 1;
@@ -171,14 +185,16 @@ class _Bounds {
   _Bounds(this.northEast, this.southWest);
 
   LatLon get center {
-    // now just determine the centre of the cell...
-    double latMin = southWest.latitude, lonMin = southWest.longitude;
-    double latMax = northEast.latitude, lonMax = northEast.longitude;
+    final latMin = southWest.latitude;
+    final lonMin = southWest.longitude;
+    final latMax = northEast.latitude;
+    final lonMax = northEast.longitude;
 
     // cell centre
     double lat = (latMin + latMax) / 2;
     double lon = (lonMin + lonMax) / 2;
 
+    // round to close to centre without excessive precision: ⌊2-log10(Δ°)⌋ decimal places
     lat = _round(lat, (2 - log(latMax - latMin) / ln10).floor());
     lon = _round(lon, (2 - log(lonMax - lonMin) / ln10).floor());
 
