@@ -1,9 +1,9 @@
 
-name: geohash
-description: geohash is a library for computing geohashes
+name: geohasher
+description: geohasher is a library for computing geohashes
 version: 0.5.0
 author: Levi Cook <levicook@gmail.com>
-homepage: https://github.com/levicook/geohash
+homepage: https://github.com/levicook/geohasher
 
 dev_dependencies:
   args: ^1.5.2

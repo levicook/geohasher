@@ -1,5 +1,5 @@
 import 'package:test/test.dart';
-import 'package:geohash/geohash.dart';
+import 'package:geohasher/geohasher.dart';
 
 main() {
   test('encode', () {

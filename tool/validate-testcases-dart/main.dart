@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:geohash/geohash.dart' as geohash;
+import 'package:geohasher/geohasher.dart' as geohasher;
 
 main() {
   stdin.transform(utf8.decoder).transform(LineSplitter()).listen((String line) {
@@ -8,9 +8,9 @@ main() {
     final lat = double.parse(rawInput[0]);
     final lon = double.parse(rawInput[1]);
     final expected = rawInput[2];
-    final observed = geohash.encode(lat, lon);
+    final observed = geohasher.encode(lat, lon);
     final expectedNeighbors = rawInput.sublist(3);
-    final observedNeighbors = geohash.neighbors(observed).values.toList();
+    final observedNeighbors = geohasher.neighbors(observed).values.toList();
 
     expectedNeighbors.sort();
     observedNeighbors.sort();

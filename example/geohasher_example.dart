@@ -1,4 +1,4 @@
-import 'package:geohash/geohash.dart';
+import 'package:geohasher/geohasher.dart';
 
 void main() {
   // Run this with assertions enabled:

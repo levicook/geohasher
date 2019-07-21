@@ -19,7 +19,7 @@ go run tool/generate-testcases-go/main.go | dart tool/validate-testcases-dart/ma
 
 These tools confirm it plays nice with Python:
 dart tool/generate-testcases-dart/main.dart | python tool/validate-testcases-python/main.py
-python tool/generate-testcases-go/main.go | dart tool/validate-testcases-dart/main.dart
+python tool/generate-testcases-python/main.py | dart tool/validate-testcases-dart/main.dart
 
 These tools confirm it's self consistent:
 dart tool/generate-testcases-dart/main.dart | dart tool/validate-testcases-dart/main.dart

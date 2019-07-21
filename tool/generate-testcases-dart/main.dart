@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:args/args.dart';
-import 'package:geohash/geohash.dart' as geohash;
+import 'package:geohasher/geohasher.dart' as geohasher;
 
 final rand = Random.secure();
 
@@ -25,8 +25,8 @@ main(List<String> arguments) {
   for (var i = 0; i < trials; i++) {
     final lat = round(uniform(-90, 90), precision);
     final lon = round(uniform(-180, 180), precision);
-    final hash = geohash.encode(lat, lon);
-    final neighbors = geohash.neighbors(hash);
+    final hash = geohasher.encode(lat, lon);
+    final neighbors = geohasher.neighbors(hash);
 
     print('$lat, $lon, $hash, ${neighbors.values.join(', ')}');
   }
