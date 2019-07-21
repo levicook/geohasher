@@ -4,14 +4,17 @@ import 'dart:math';
 
 const _base32 = '0123456789bcdefghjkmnpqrstuvwxyz';
 
+/// Encode a pair of latitude and longitude values into a geohash.
 String encode(final double lat, final double lon, {final int precision = 12}) {
   return LatLon(lat, lon).toGeoHash(precision: precision);
 }
 
+/// Decode a hash string into a LatLon (pair of latitude and longitude values).
 LatLon decode(final String hash, {final int precision = 12}) {
   return LatLon.fromGeoHash(hash, precision: precision);
 }
 
+/// Find the neighbor of a geohash string in certain direction.
 String neighbor(final String hash, final Direction direction) {
   switch (direction) {
     case Direction.northEast:
@@ -27,6 +30,7 @@ String neighbor(final String hash, final Direction direction) {
   }
 }
 
+/// Find all 8 geohash neighbors (each direction) of a geohash string.
 Map<Direction, String> neighbors(final String hash) {
   return {
     Direction.north: neighbor(hash, Direction.north),
@@ -40,6 +44,7 @@ Map<Direction, String> neighbors(final String hash) {
   };
 }
 
+/// Cardinal and intercardinal directions
 enum Direction {
   north,
   northEast,
@@ -51,6 +56,7 @@ enum Direction {
   northWest
 }
 
+/// Latitude/Longitude coordinate pair
 class LatLon {
   final double latitude;
   final double longitude;
