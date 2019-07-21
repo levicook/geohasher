@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"reflect"
+	"sort"
 	"strconv"
 	"strings"
 
@@ -19,8 +21,18 @@ func main() {
 		lon, _ := strconv.ParseFloat(rawInput[1], 64)
 		expected := rawInput[2]
 		observed := geohash.Encode(lat, lon)
+		expectedNeighbors := rawInput[3:]
+		observedNeighbors := geohash.Neighbors(observed)
+
+		sort.Strings(expectedNeighbors)
+		sort.Strings(observedNeighbors)
+
 		if observed != expected {
-			fmt.Printf("mismatch; expected: %q, observed: %q for {%v,%v}\n", expected, observed, lat, lon)
+			fmt.Printf("expected: %q\nobserved: %q\nfor {%v,%v}\n", expected, observed, lat, lon)
+		}
+
+		if !reflect.DeepEqual(expectedNeighbors, observedNeighbors) {
+			fmt.Printf("expected: %q\nobserved: %q\nfor {%v,%v}\n", expectedNeighbors, observedNeighbors, lat, lon)
 		}
 	}
 

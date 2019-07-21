@@ -9,9 +9,21 @@ main() {
     final lon = double.parse(rawInput[1]);
     final expected = rawInput[2];
     final observed = geohash.encode(lat, lon);
+    final expectedNeighbors = rawInput.sublist(3);
+    final observedNeighbors = geohash.neighbors(observed).values.toList();
+
+    expectedNeighbors.sort();
+    observedNeighbors.sort();
+
     if (observed != expected) {
       print(
-        "mismatch; expected: $expected, observed: $observed for {$lat,$lon}",
+        "expected: $expected\nobserved: $observed\nfor {$lat,$lon}",
+      );
+    }
+
+    if (observedNeighbors.join(',') != expectedNeighbors.join(',')) {
+      print(
+        "expected: $expectedNeighbors\nobserved: $observedNeighbors\nfor {$lat,$lon}",
       );
     }
   });

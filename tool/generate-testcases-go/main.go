@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"math"
 	"math/rand"
+	"strings"
 	"time"
 
 	"github.com/mmcloughlin/geohash"
@@ -27,7 +28,14 @@ func main() {
 		lat := round(uniform(-90, 90))
 		lon := round(uniform(-180, 180))
 		hash := geohash.Encode(lat, lon)
-		fmt.Printf("%v, %v, %v\n", lat, lon, hash)
+		neighbors := geohash.Neighbors(hash)
+		fmt.Printf(
+			"%v, %v, %v, %v\n",
+			lat,
+			lon,
+			hash,
+			strings.Join(neighbors, ", "),
+		)
 	}
 }
 

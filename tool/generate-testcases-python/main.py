@@ -18,4 +18,10 @@ for i in range(args.trials):
     lat = round(uniform(-90, 90), args.precision)
     lon = round(uniform(-180, 180), args.precision)
     hash = geohash.encode(lat, lon)
-    print('%s, %s, %s' % (lat, lon, hash))
+    neighbors = geohash.neighbors(hash)
+    print('%s, %s, %s, %s' % (
+        lat,
+        lon,
+        hash,
+        ', '.join(neighbors)
+    ))

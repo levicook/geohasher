@@ -12,6 +12,45 @@ LatLon decode(final String hash) {
   return LatLon.fromGeoHash(hash);
 }
 
+String neighbor(final String hash, final Direction direction) {
+  switch (direction) {
+    case Direction.northEast:
+      return _adjacent(_adjacent(hash, Direction.north), Direction.east);
+    case Direction.southEast:
+      return _adjacent(_adjacent(hash, Direction.south), Direction.east);
+    case Direction.southWest:
+      return _adjacent(_adjacent(hash, Direction.south), Direction.west);
+    case Direction.northWest:
+      return _adjacent(_adjacent(hash, Direction.north), Direction.west);
+    default:
+      return _adjacent(hash, direction);
+  }
+}
+
+Map<Direction, String> neighbors(final String hash) {
+  return {
+    Direction.north: neighbor(hash, Direction.north),
+    Direction.northEast: neighbor(hash, Direction.northEast),
+    Direction.east: neighbor(hash, Direction.east),
+    Direction.southEast: neighbor(hash, Direction.southEast),
+    Direction.south: neighbor(hash, Direction.south),
+    Direction.southWest: neighbor(hash, Direction.southWest),
+    Direction.west: neighbor(hash, Direction.west),
+    Direction.northWest: neighbor(hash, Direction.northWest),
+  };
+}
+
+enum Direction {
+  north,
+  northEast,
+  east,
+  southEast,
+  south,
+  southWest,
+  west,
+  northWest
+}
+
 class LatLon {
   final double latitude;
   final double longitude;
@@ -145,6 +184,56 @@ class _Bounds {
 
     return LatLon(lat, lon);
   }
+}
+
+String _adjacent(
+  final String hash,
+  final Direction direction,
+) {
+  assert(direction == Direction.north ||
+      direction == Direction.east ||
+      direction == Direction.south ||
+      direction == Direction.west);
+
+  const neighbors = {
+    Direction.north: [
+      'p0r21436x8zb9dcf5h7kjnmqesgutwvy',
+      'bc01fg45238967deuvhjyznpkmstqrwx'
+    ],
+    Direction.south: [
+      '14365h7k9dcfesgujnmqp0r2twvyx8zb',
+      '238967debc01fg45kmstqrwxuvhjyznp'
+    ],
+    Direction.east: [
+      'bc01fg45238967deuvhjyznpkmstqrwx',
+      'p0r21436x8zb9dcf5h7kjnmqesgutwvy'
+    ],
+    Direction.west: [
+      '238967debc01fg45kmstqrwxuvhjyznp',
+      '14365h7k9dcfesgujnmqp0r2twvyx8zb'
+    ],
+  };
+
+  const border = {
+    Direction.north: ['prxz', 'bcfguvyz'],
+    Direction.south: ['028b', '0145hjnp'],
+    Direction.east: ['bcfguvyz', 'prxz'],
+    Direction.west: ['0145hjnp', '028b'],
+  };
+
+  final lastCh = hash[hash.length - 1]; // last character of hash
+
+  // hash without last character
+  String parent = hash.substring(0, hash.length - 1);
+  final type = hash.length % 2;
+
+  // check for edge-cases which don't share common prefix
+  if (border[direction][type].indexOf(lastCh) != -1 && parent != '') {
+    parent = _adjacent(parent, direction);
+  }
+
+  // append letter for direction to parent
+  return parent + _base32[neighbors[direction][type].indexOf(lastCh)];
 }
 
 double _round(double v, int precision) {

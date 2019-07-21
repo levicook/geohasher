@@ -26,7 +26,9 @@ main(List<String> arguments) {
     final lat = round(uniform(-90, 90), precision);
     final lon = round(uniform(-180, 180), precision);
     final hash = geohash.encode(lat, lon);
-    print('$lat, $lon, $hash');
+    final neighbors = geohash.neighbors(hash);
+
+    print('$lat, $lon, $hash, ${neighbors.values.join(', ')}');
   }
 }
 
