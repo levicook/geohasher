@@ -1,4 +1,4 @@
-library geohash;
+library geohasher;
 
 import 'dart:math';
 
@@ -250,7 +250,7 @@ String _adjacent(
   final type = hash.length % 2;
 
   // check for edge-cases which don't share common prefix
-  if (border[direction][type].indexOf(lastCh) != -1 && parent != '') {
+  if (border[direction][type].contains(lastCh) && parent != '') {
     parent = _adjacent(parent, direction);
   }
 
