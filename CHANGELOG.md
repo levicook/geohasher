@@ -1,4 +1,8 @@
 
+## 0.5.2
+
+- Correcting another package name reference; this is geohasher, not geohash.
+
 ## 0.5.1
 
 - Correcting library name; was geohash, now geohasher

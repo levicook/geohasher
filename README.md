@@ -1,6 +1,6 @@
 
-geohash
-=======
+geohasher
+=========
 
 Dart port of geohash; provides encoding and decoding of string geohashes.
 

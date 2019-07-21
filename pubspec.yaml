@@ -1,7 +1,7 @@
 
 name: geohasher
 description: geohasher is a library for computing geohashes; geohashes are a public domain geocoding system
-version: 0.5.1
+version: 0.5.2
 author: Levi Cook <levicook@gmail.com>
 homepage: https://github.com/levicook/geohasher
 
