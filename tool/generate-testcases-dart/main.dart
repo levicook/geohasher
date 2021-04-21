@@ -37,6 +37,6 @@ double uniform(double min, double max) {
 }
 
 double round(double v, int precision) {
-  double mod = pow(10.0, precision);
+  double mod = pow(10.0, precision) as double;
   return ((v * mod).round().toDouble() / mod);
 }

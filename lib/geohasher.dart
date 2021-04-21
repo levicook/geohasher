@@ -62,8 +62,8 @@ class LatLon {
   final double longitude;
 
   const LatLon(final this.latitude, final this.longitude)
-      : assert(latitude != null && latitude >= -90 && latitude <= 90),
-        assert(longitude != null && latitude >= -180 && latitude <= 180);
+      : assert(latitude >= -90 && latitude <= 90),
+        assert(latitude >= -180 && latitude <= 180);
 
   factory LatLon.fromGeoHash(final String hash, {final int precision = 12}) {
     return _bounds(hash).center.round(precision);
@@ -77,7 +77,7 @@ class LatLon {
   }
 
   String toGeoHash({final int precision = 12}) {
-    assert(precision != null && precision >= 0 && precision <= 12);
+    assert(precision >= 0 && precision <= 12);
 
     int idx = 0; // index into base32 map
     int bit = 0; // each char holds 5 bits
@@ -250,15 +250,15 @@ String _adjacent(
   final type = hash.length % 2;
 
   // check for edge-cases which don't share common prefix
-  if (border[direction][type].contains(lastCh) && parent != '') {
+  if (border[direction]![type].contains(lastCh) && parent != '') {
     parent = _adjacent(parent, direction);
   }
 
   // append letter for direction to parent
-  return parent + _base32[neighbors[direction][type].indexOf(lastCh)];
+  return parent + _base32[neighbors[direction]![type].indexOf(lastCh)];
 }
 
 double _round(double v, int precision) {
-  double mod = pow(10.0, precision);
+  double mod = pow(10.0, precision) as double;
   return ((v * mod).round().toDouble() / mod);
 }
